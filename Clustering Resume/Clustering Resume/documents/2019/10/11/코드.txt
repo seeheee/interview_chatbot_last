@@ -1,0 +1,68 @@
+//Object-C
+
+
+//1) 2번 pin을 output으로 설정
+//   pinMode(핀번호, OUTPUT/INPUT);
+
+//2) 어떤 경우에만 2번 pin ON
+//3) ''                  OFF
+
+
+
+
+
+//Variables
+int ledPIN = 3;
+int button = 4;
+bool LED = false;
+int flag = HIGH;
+void setup() {
+  //Initialize 
+  pinMode(button, INPUT_PULLUP);
+//  pinMode(ledPIN, OUTPUT);
+  Serial.begin(9600);
+
+}
+
+void loop() {
+ //Procesure
+// digitalWrite(ledPIN, LOW);
+// Serial.println("LED OFF");
+// delay(1000);
+// digitalWrite(ledPIN, HIGH);
+// Serial.println("LED ON");
+// delay(1000);
+
+//  if(flag == LOW && digitalRead(button) == HIGH){
+//    LED = !LED;
+//  }
+//  flag = digitalRead(button);
+//  if(LED){
+//    digitalWrite(ledPIN, HIGH);
+//  }else{
+//    digitalWrite(ledPIN, LOW);
+//  }
+
+
+
+  int text = 0;
+  if((text = Serial.read()) != -1){
+    text = (text - '0');
+  }
+
+  if(text == -1)
+    text = 0;
+    
+    analogWrite(ledPIN, 255 * text / 9 );
+    delay(2000);
+//    delay(500);
+//    analogWrite(ledPIN, 128 );
+//    delay(500);
+//    analogWrite(ledPIN, 0 );
+//    delay(500);
+
+
+//같이 빌려드린 pushbutton 은 검정색이 gnd, 빨간색이 5V, 초록색이 pin 입니당
+//과제 1) LED 여러개와 push button 여러개 묶어서 각 push button 을 누르면 그 button과 연결된 LED의 상태가 변하게
+//과제 2) Serial 을 이용해서 특정 값을 입력받으면 켜져있는 LED의 밝기가 변하게
+}

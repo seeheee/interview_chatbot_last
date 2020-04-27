@@ -1,0 +1,487 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}면접챗봇 | 미리매{% endblock %}
+{% block description %}<meta name="description" content="자기소개서를 기반으로 면접을 진행하는 챗봇의 소개페이지입니다.">{% endblock %}
+{% block content %}
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<head>
+  <style>
+
+  .main {
+   margin-left: 40%;
+   margin-top: 15%;
+}
+.rating-star {
+    direction: rtl;
+    font-size: 28;
+    unicode-bidi: bidi-override;
+    display: inline-block;
+}
+.rating-star input {
+    opacity: 0;
+    position: relative;
+    left: -20px;
+    z-index: 2;
+    cursor: pointer;
+}
+.rating-star span.star:before {
+    color: #777777;
+}
+.rating-star span.star {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    position: relative;
+    z-index: 1;
+}
+.rating-star span {
+    margin-left: -12px;
+}
+.rating-star span.star:before {
+    color: #777777;
+    content:"\f006";
+}
+.rating-star input:hover + span.star:before, .rating-star input:hover + span.star ~ span.star:before, .rating-star input:checked + span.star:before, .rating-star input:checked + span.star ~ span.star:before {
+    color: #ffd100;
+    content:"\f005";
+}
+
+.selected-rating{
+    color: #ffd100;
+    font-weight: bold;
+    font-size: 42px;
+}
+
+
+<!--여기 위에는 별-->
+
+   .dropdown .nav-link{
+  border: none;
+  outline: none;
+  background-color: inherit;
+  margin: 0;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+
+}
+.dropdown-content a {
+  font-size : 14px;
+  float: none;
+  color: black;
+  padding: 8px 4px;
+  display: block;
+  text-align: left;
+   border-bottom: 1px solid  black;
+}
+.dropdown-content a:hover {
+  color:#fdc632;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+<!--.banner_area{-->
+<!--    background-image: url("/static/img/banner/creative.jpg"); background-repeat: no-repeat; background-position: center;-->
+<!--}-->
+.point{
+    font-size:20px;
+    color:#002347;
+    font-weight: bolder;
+}
+#wow {
+    background-color: #ecf2f9;
+    padding : 30px 30px;
+    border-radius : 30px;
+}
+#que{color:black; border-bottom: 2px solid  #79a4d2;}
+
+#hr{ border-bottom: 2px solid  #79a4d2; margin-top:4px;}
+
+.button{
+  width: 180px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color:   #79a4d2;
+  box-shadow: 0px 15px 20px rgba(121,164,210, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+#font {text-align: center;}
+
+#finally3 {background: #79a4d2; color: white; border: #79a4d2;}
+#finally3:hover {background:white; color:#79a4d2; border: 1px solid #79a4d2;}
+</style>
+<!--================ Start Header Menu Area =================-->
+  <header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <a class="navbar-brand logo_h" href="{% url 'home:homePage' %}"><img src="{% static 'img/mirime.png' %}" alt="" /></a>
+          <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="icon-bar"></span> <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div
+              class="collapse navbar-collapse offset"
+              id="navbarSupportedContent"
+            >
+              <ul class="nav navbar-nav menu_nav ml-auto">
+
+               <!-- 변경 -->
+                  <li class="nav-item">
+                        {% if not request.user.is_authenticated %}
+                        <a class="nav-link" href="/user/create/">가입하기</a>
+                        {% endif %}
+                  </li>
+                 <li class="nav-item">
+                        {% if user.is_active %}
+                        <div class="dropdown">
+                          <a class="nav-link" href="{% url 'home:mypage' %}">내 정보 보기</a>
+                            <i class="fa fa-caret-down"></i>
+                        <div class="dropdown-content">
+                          <a href="/resume/">자기소개서 입력</a>
+                            <a href="{% url 'home:mypage' %}">내 정보 보기</a>
+                            <a href="{% url 'mbti_test' %}">MBTI 검사하기</a>
+                          <a href="{% url 'home:result_list' %}">면접결과 보기</a>
+                           <a id="button" href="/user/logout/" onclick="popupDetail();">로그아웃</a>
+                        </div>
+                       </div>
+                         <li class="nav-item">
+                  <a class="nav-link" href="/bot/">면접 진행하기</a>
+                </li>
+                        {% else %}
+                        <a class="nav-link" href="/user/login/">로그인</a>
+                        {% endif %}
+                  </li>
+                  <!-- 변경 -->
+
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#thebookclub">면접챗봇이란?</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'home:details' %}">상세정보</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#reviewArea">면접후기</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/article/">게시판</a>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+
+    <!--================Home Banner Area =================-->
+  <section class="banner_area">
+    <div class="banner_inner d-flex align-items-center">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="banner_content text-center"><br><br><br>
+              <h1>Interview Result</h1>
+              <div class="page_link">
+                <a href="#">진행한 면접 내용을 복습해보세요!</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+    <!--================End Home Banner Area =================-->
+
+    <!--================ Start About Area =================-->
+    <section class="about_area section_gap">
+      <div class="container">
+
+
+<!--            <details>-->
+<!--            <summary class="point">면접내역 확인</summary>-->
+<!--<table width="1000" class="table table-hover" >-->
+<!--    <thead>-->
+<!--        <th style="color: black;">횟수</th><th style="color: black;">제목</th>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--        {% for question in questions %}-->
+<!--        <tr onclick="location.href='/home/result_details/{{ resume.id }}/listlist'">  &lt;!&ndash; 테이블 행 click 시 url 이동 &ndash;&gt;-->
+<!--            <td>{{ question.id }}</td><td>{{ question.my_resume }}</td>-->
+<!--        </tr>-->
+<!--        {% endfor %}-->
+<!--    </tbody>-->
+
+</table>
+
+<!--{##}-->
+<!--{#                <div id="wow">#}-->
+<!--{#              <p>{% for question in questions %}<br>#}-->
+<!--{#                         <strong id="que">질문1: {{question.question1}} </strong>#}-->
+<!--{#                         <div align="right"><strong>답변1: </strong> {{question.answer1}}<br><br>#}-->
+<!--{#                            <span class="rating-star">&ndash;&gt;#}-->
+<!--{#                            <input type="radio" name="rating1" value="5"><span class="star"></span>&ndash;&gt;#}-->
+<!--                            <input type="radio" name="rating1" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating1" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating1" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating1" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문2: {{question.question2}}</strong><br>-->
+<!--                         <div align="right"><strong>답변2:</strong>{{question.answer2}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating2" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating2" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating2" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating2" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating2" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문3: {{question.question3}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변3: </strong> {{question.answer3}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating3" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating3" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating3" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating3" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating3" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문4: {{question.question4}} </strong><br>-->
+<!--                         <div align="right"><strong>답변4: </strong> {{question.answer4}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating4" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating4" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating4" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating4" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating4" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문5: {{question.question5}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변5: </strong>{{question.answer5}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating5" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating5" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating5" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating5" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating5" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문6: {{question.question6}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변6: </strong> {{question.answer6}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating6" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating6" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating6" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating6" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating6" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문7: {{question.question7}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변7: </strong> {{question.answer7}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating7" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating7" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating7" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating7" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating7" value="1"><span class="star"></span>-->
+<!--                            </span></div>-->
+
+<!--                         <strong id="que">질문8: {{question.question8}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변8: </strong> {{question.answer8}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating8" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating8" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating8" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating8" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating8" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문9: {{question.question9}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변9: </strong> {{question.answer9}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating9" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating9" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating9" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating9" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating9" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문10: {{question.question10}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변10: </strong> {{question.answer10}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating10" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating10" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating10" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating10" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating10" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문11: {{question.question11}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변11: </strong> {{question.answer11}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating11" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating11" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating11" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating11" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating11" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문12: {{question.question12}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변12: </strong> {{question.answer12}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating12" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating12" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating12" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating12" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating12" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문13: {{question.question13}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변13: </strong> {{question.answer13}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating13" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating13" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating13" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating13" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating13" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문14: {{question.question14}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변14: </strong> {{question.answer14}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating14" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating14" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating14" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating14" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating14" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문15: {{question.question15}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변15: </strong> {{question.answer15}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating15" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating15" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating15" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating15" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating15" value="1"><span class="star"></span>-->
+<!--                            </span></div><br>-->
+
+<!--                         <strong id="que">질문16: {{question.question16}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변16: </strong> {{question.answer16}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating16" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating16" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating16" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating16" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating16" value="1"><span class="star"></span>-->
+<!--                            </span></div><br><br>-->
+
+<!--                         <strong id="que">질문17: {{question.question17}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변17: </strong> {{question.answer17}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating17" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating17" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating17" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating17" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating17" value="1"><span class="star"></span>-->
+<!--                            </span></div><br><br>-->
+
+<!--                         <strong id="que">질문18: {{question.question18}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변18: </strong> {{question.answer18}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating18" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating18" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating18" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating18" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating18" value="1"><span class="star"></span>-->
+<!--                            </span></div><br><br>-->
+
+<!--                         <strong id="que">질문19: {{question.question19}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변19: </strong> {{question.answer19}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating19" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating19" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating19" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating19" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating19" value="1"><span class="star"></span>-->
+<!--                            </span></div><br><br>-->
+
+<!--                         <strong id="que">질문20: {{question.question20}} </strong> <br>-->
+<!--                         <div align="right"><strong>답변20: </strong> {{question.answer20}}<br><br>-->
+<!--                         <span class="rating-star">-->
+<!--                            <input type="radio" name="rating20" value="5"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating20" value="4"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating20" value="3"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating20" value="2"><span class="star"></span>-->
+<!--                            <input type="radio" name="rating20" value="1"><span class="star"></span>-->
+<!--                            </span></div><br><br>-->
+
+
+<!--                    <strong style="font-size:25px; color: black; margin-left:200px; ">당신이 당신에게 준 면접 평가점수는 <span id="scores"></span> 점 입니다.</strong>-->
+<!--                    <input type ="button" style="margin-left: 850px; " class="button"   value="Result" onclick="count()" />-->
+
+<!--                {% endfor %}-->
+<!--            </p>-->
+<!--                    </div>-->
+<!--            </details>-->
+<!--              <hr>-->
+<head>
+ <script language="javascript">
+   function popupDetail(){
+        alert("로그아웃 되었습니다.");
+        }
+  </script>
+</head>
+          </div>
+  <div class="float-event lvTest" id="testFab">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="my-float">자신의 개성이 반영된 자기소개서입력 완료!<br> 이제 면접만 남았다면 지금 바로 면접을 진행해 보세요!</p>
+        </div>
+        <div class="col">
+          <a href="/bot/"><button class="event-btn" id="finally3" style="margin-top: 16px;" >면접 진행하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    </section>
+    <!--================ End About Area =================-->
+{% endblock %}

@@ -1,0 +1,438 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}면접챗봇 | 자기소개서기반 모의면접{% endblock %}
+{% block description %}<meta name="description" content="자기소개서를 기반으로 질문을 하는 면접챗봇입니다.">{% endblock %}
+{% block content %}
+<head>
+  <style>
+    .events_area{
+       background: #79a4d2;
+    }
+    .main_title p{
+      color : white;
+    }
+    .col-lg-5 p{
+      color : black;
+    }
+   .single_feature {
+       background: #79a4d2;
+    }
+    .desc p {
+      color :white;
+    }
+    .mb-3 p{
+        background: #79a4d2;}
+
+     #ResumeFormBtn {
+     background: #79a4d2;
+     }
+     .nav navbar-nav menu_nav ml-auto{
+      background: #79a4d2;
+     }
+    #ResumeForm label{
+      color : black;
+    }
+
+    .home_banner_area{
+     background-image: url("/static/img/banner/interview.jpg"); background-repeat: no-repeat; background-position: center;
+    }
+ .dropdown .nav-link{
+  border: none;
+  outline: none;
+  background-color: inherit;
+  margin: 0;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  font-size : 14px;
+  float: none;
+  color: black;
+  padding: 8px 4px;
+  display: block;
+  text-align: left;
+  border-bottom: 1px solid  black;
+}
+.dropdown-content a:hover {
+  color:#fdc632;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+#finally {background:white; color:#79a4d2;}
+#finally:hover {background: #79a4d2; color: white; border:1px solid white;}
+
+#finally2 {background: #79a4d2; color: white; border: #79a4d2; }
+#finally2:hover {background:white; color:#79a4d2; border:1px solid #79a4d2;}
+
+#finally3 {background: #79a4d2; color: white; border: #79a4d2;}
+#finally3:hover {background:white; color:#79a4d2; border: 1px solid #79a4d2;}
+  </style>
+
+ <script language="javascript">
+   function popupDetail(){
+        alert("로그아웃 되었습니다.");
+        }
+  </script>
+
+</head>
+<!--================ Start Header Menu Area =================-->
+  <header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <a class="navbar-brand logo_h" href="{% url 'home:homePage' %}"><img src="{% static 'img/mirime.png' %}" alt="" /></a>
+          <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="icon-bar"></span> <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div
+              class="collapse navbar-collapse offset"
+              id="navbarSupportedContent"
+            >
+              <ul class="nav navbar-nav menu_nav ml-auto">
+
+               <!-- 변경 -->
+                  <li class="nav-item">
+                        {% if not request.user.is_authenticated %}
+                        <a class="nav-link" href="/user/create/">가입하기</a>
+                        {% endif %}
+                  </li>
+                 <li class="nav-item">
+                        {% if user.is_active %}
+                        <div class="dropdown">
+                          <a class="nav-link" href="{% url 'home:mypage' %}">내 정보 보기</a>
+                            <i class="fa fa-caret-down"></i>
+                        <div class="dropdown-content">
+                          <a href="/resume/">자기소개서 입력</a>
+                          <a href="{% url 'home:mypage' %}">내 정보 보기</a>
+                          <a href="{% url 'mbti_test' %}">MBTI 검사하기</a>
+                          <a href="{% url 'home:result_list' %}">면접결과 보기</a>
+                           <a id="button" href="/user/logout/" onclick="popupDetail();">로그아웃</a>
+                        </div>
+                       </div>
+                      <li class="nav-item">
+                  <a class="nav-link" href="/bot/">면접 진행하기</a>
+                </li>
+                        {% else %}
+                        <a class="nav-link" href="/user/login/">로그인</a>
+                        {% endif %}
+                  </li>
+                  <!-- 변경 -->
+
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#thebookclub">면접챗봇이란?</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'home:details' %}">상세정보</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#reviewArea">면접후기</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/article/">게시판</a>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!--================ Start Home Banner Area =================-->
+  <section class="home_banner_area">
+    <div class="banner_inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="banner_content text-center">
+              <p style="margin: 0px; color: white;">
+                실제 면접관이 자기 소개서를 읽으면서 할 질문들에
+              </p>
+              <p style="color: white;">
+                미리 대비해 볼 수 있는 면접챗봇!
+              </p>
+              <h2 class="text-uppercase mt-4 mb-5" style="color: white;">
+                write, analysis, question, think, answer
+              </h2>
+              <div>
+                <a href="#thebookclub" class="primary-btn2 mb-3 mb-sm-0" id="finally">면접챗봇이란?</a>
+                <a href="details" class="primary-btn ml-sm-3 ml-0" id="finally2">상세정보</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================ End Home Banner Area =================-->
+
+  <!--================ Start Feature Area =================-->
+  <section class="feature_area section_gap_top" id="thebookclub">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-5">
+          <div class="main_title">
+            <h3 class="mb-3">면접 챗봇이란??</h3>
+            <p>
+              실제 면접관이 자기소개서를 읽어가며<br>
+              듣게 될 확률이 높은 질문을 하는 챗봇!
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div class="single_feature">
+            <div class="icon"><span class="flaticon-open-book" style="color: #002347"></span></div>
+            <div class="desc">
+              <h4 class="mt-3 mb-2">Write  Autobiography</h4>
+              <p>
+                실제 지원할 회사의 자신만의 자기소개서를 바탕으로 합니다!<br> 직접 자신이 어필하고 싶은 장점과 자신의 성향을 작성합니다!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="single_feature">
+            <div class="icon"><span class="flaticon-speech-bubble" style="color: #002347"></span></div>
+            <div class="desc">
+              <h4 class="mt-3 mb-2">Analysis in Autography</h4>
+              <p>
+                직접 작성한 자기소개서를 분석하여 약 7000개의 예상 질문 중 실제로 받게 될 확률이 높은 질문을 선별합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="single_feature">
+            <div class="icon"><span class="flaticon-speech-bubble-1" style="color: #002347"></span></div>
+            <div class="desc">
+              <h4 class="mt-3 mb-2">Talk with Chatbot</h4>
+              <p>
+                면접은 배우는 것이 아니라 익숙해 지는 것 입니다. 실제로 받게 될 질문들과 예상치 못했던 질문들에 반복해서 답변해보면서 자신이 말하고자 하는 부분을 어떠한 상황에서도 전달하는 능력을 기르세요!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================ End Feature Area =================-->
+
+  <!--================ Start Events Area =================-->
+  <div class="events_area">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-5">
+          <div class="main_title">
+            <h2 class="mb-3 text-white">이달의 책</h2>
+            <p>
+              면접에 도움이 되는책은 어떤 책일까요?
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6">
+          <div class="single_event position-relative">
+            <div class="event_thumb">
+              <img src="{% static 'img/book3.jpg' %}" alt="" />
+            </div>
+            <div class="event_details">
+              <div class="d-flex mb-4">
+                <div class="date"><span>9월</span>통합</div>
+
+                <div class="time-location">
+                  <p>
+                    채용담당자가 공개하는 취업면접 합격 기술
+                  </p>
+                </div>
+              </div>
+              <p>
+                본서는 취업면접과 관련하여 채용담당자자인 저자의 경험과 면접기술, 채용담당자끼리 정보교류를 통해 얻은 노하우 등을 제시하고, 자주 출제되는 핵심 면접질문과 그에 따른 WORST/BEST 답변을 제공하고 있다...
+              </p>
+              <a href="{% url 'home:details' %}" class="primary-btn rounded-0 mt-3">더알아보기<i class="ti-arrow-right ml-1"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="single_event position-relative">
+            <div class="event_thumb">
+              <img src="{% static 'img/book1.jpg' %}" alt="" />
+            </div>
+            <div class="event_details">
+              <div class="d-flex mb-4">
+                <div class="date"><span>9월</span>공기업</div>
+
+                <div class="time-location">
+                  <p>
+                    위포트 박규현의 공기업 NCS 면접
+                  </p>
+
+                </div>
+              </div>
+              <p>
+                19년 경력 공기업 인사담당 출신의 저자가, 인사담당 차장으로서 면접을 운영하면서 잘못된 면접 자세나 태도, 적절하지 못한 면접 답변으로 인해 탈락하는 경우를 보며, 훌륭한 인재들이 면접에서 미숙한 대응으로 인해 탈락의 고배를 마시지 않도록...
+              </p>
+              <a href="{% url 'home:details' %}" class="primary-btn rounded-0 mt-3">더 알아보기<i class="ti-arrow-right ml-1"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-12">
+          <div class="text-center pt-lg-5 pt-3">
+            <a href="#" class="event-link">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--================ End Events Area =================-->
+
+  <!--================ Start Testimonial Area =================-->
+  <div class="testimonial_area section_gap" id="reviewArea">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-5">
+          <div class="main_title">
+            <h2 class="mb-3">회원 리뷰</h2>
+            <p>
+              면접챗봇을 경험한 회원들의 후기를 확인해보세요
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="testi_slider owl-carousel">
+          <div class="testi_item">
+            <div class="row justify-content-center">
+              <div class="col-lg-4 col-md-6">
+                <img src="{% static 'img/5.jpg' %}" class="mx-auto" alt="" />
+              </div>
+              <div class="col-lg-8">
+                <div class="testi_text">
+                  <h4>이성근 / 서경대학교 학생</h4>
+                  <p>
+                    막연하게 제가 선별하여 면접질문에 대비하는것이 아니라, 저의 특징이나 개성을 반영하여 알맞은 질문에 대답해볼 기회가 있다는것에서 큰 매력을 느꼈습니다!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testi_item">
+            <div class="row justify-content-center">
+              <div class="col-lg-4 col-md-6">
+                <img src="{% static 'img/1.jpg' %}" class="mx-auto" alt="" />
+              </div>
+              <div class="col-lg-8">
+                <div class="testi_text">
+                  <h4>최정은 / 서경대학교 학생</h4>
+                  <p>
+                    수천개나 되는 면접질문들을 보고 언제 모두 읽고 대비하려나 하고 걱정했는데, 매번 새로운 질문에 즉흥적으로 제가 전달하고자 하는바를 전달하려고 노력한것이 큰 도움이 되었습니다!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testi_item">
+            <div class="row justify-content-center">
+              <div class="col-lg-4 col-md-6">
+                <img src="{% static 'img/4.jpg' %}" class="mx-auto" alt="" />
+              </div>
+              <div class="col-lg-8">
+                <div class="testi_text">
+                  <h4>이난영 / 4학년 </h4>
+                  <p>
+                    생각지도 못한 질문에 대답하다보니 어느새 적응이 되었고, 예상하지 못한 질문에 대한 울렁증을 극복할 수 있었습니다!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testi_item">
+            <div class="row justify-content-center">
+              <div class="col-lg-4 col-md-6">
+                <img src="{% static 'img/3.jpg' %}" class="mx-auto" alt="" />
+              </div>
+              <div class="col-lg-8">
+                <div class="testi_text">
+                  <h4>강지윤 / 취준생</h4>
+                  <p>
+                    질문을 받았을때 예상해봤던 질문에 있는지를 떠올려보려 하던 습관에서 벗어나 현재 질문에 대한 이해를 해보려하는 습관을 갖게 되었습니다!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testi_item">
+            <div class="row justify-content-center">
+              <div class="col-lg-4 col-md-6">
+                <img src="{% static 'img/2.jpg' %}" class="mx-auto" alt="" />
+              </div>
+              <div class="col-lg-8">
+                <div class="testi_text">
+                  <h4>권세희 / 휴학생</h4>
+                  <p>
+                    면접뿐만 아니라, 누군가에게 저의 의견을 올바르게 전달하는 연습을 하는데에도 큰 도움이 되었다고 생각합니다!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testi_item">
+            <div class="row justify-content-center">
+              <div class="col-lg-4 col-md-6">
+                <img src="{% static 'img/6.jpg' %}" class="mx-auto" alt="" />
+              </div>
+              <div class="col-lg-8">
+                <div class="testi_text">
+                  <h4>유지웅 / 4학년 </h4>
+                  <p>
+                    제가 말을 잘 한다는것을 알고있긴 했지만, 새삼 저의 능력이 보통이 아니라는 생각을 하게 되었습니다ㅋ
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="float-event lvTest" id="testFab">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="my-float">자신의 개성이 반영된 자기소개서입력 완료!<br> 이제 면접만 남았다면 지금 바로 면접을 진행해 보세요!</p>
+        </div>
+        <div class="col">
+          <a href="/bot/"><button class="event-btn" id="finally3" style="margin-top: 16px;" >면접 진행하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

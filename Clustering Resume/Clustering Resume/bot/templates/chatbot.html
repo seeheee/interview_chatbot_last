@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>면접 진행하기</title>
+ <script type="text/javascript">
+
+function button_event(){
+if (confirm("면접을 종료하시겠습니까?") == true){    //확인
+    document.form.submit();
+}else{   //취소
+    return;}
+}
+
+</script>
+    <style>#cam{margin: 20px auto;} </style>
+</head>
+
+<frameset rows="10%,75%,15%">
+<!--     <frameset cols="8%,*">-->
+<!--         <frame src = "logo" frameborder="0" noresize marginwidth=""scrolling="no">-->
+         <frame src = "mirime" frameborder="0" noresize marginwidth=""scrolling="no">
+<!--      </frameset>-->
+    <frameset cols="50%,*%">
+        <frameset rows="80%,*">
+             <frame src = "cam" frameborder="0" noresize marginwidth="" scrolling="no">
+            <frameset cols="50%,*%">
+                <frame src = "stopwatch" frameborder="0" noresize marginwidth="" scrolling="yes">
+                <frame src = "soundwave" frameborder="0" noresize marginwidth="" scrolling="no">
+             </frameset>
+            </frameset>
+            <frame src = "bot" frameborder="0" noresize marginwidth="">
+        </frameset>
+    <frameset cols="50%,*%">
+        <frame src = "bottom" frameborder="0" noresize scrolling="yes">
+        <frame src = "button_real" frameborder="0" noresize marginwidth="200px;"scrolling="no">
+        </frameset>
+     </frameset>
+</html>

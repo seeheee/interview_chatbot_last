@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>버튼</title>
+     <script type="text/javascript">
+
+<!--function button_event(){-->
+<!--if (confirm("면접을 종료하시겠습니까?") == true){    //확인-->
+<!--   parent.location.href='{% url 'home:mypage' %};-->
+<!--}else{   //취소-->
+<!--    return;-->
+<!--}-->
+<!--}-->
+
+var time = 0;
+var running = 0;
+
+function startPause(){
+ if(running == 0){
+ running = 1;
+ increment();
+ document.getElementById("startPause").innerHTML = "Pause";
+ }else {
+ running = 0;
+ document.getElementById("startPause").innerHTML = "Resume";
+ }
+}
+
+function reset(){
+ running = 0;
+ time = 0;
+ document.getElementById("startPause").innerHTML = "Start";
+ document.getElementById("output").innerHTML = "00:00:00";
+}
+
+function increment(){
+ if(running == 1){
+ setTimeout(function(){
+ time++;
+ var mins = Math.floor(time/10/60);
+ var secs = Math.floor(time/10);
+ var tenths = time % 10;
+
+ if(mins < 10){
+ mins = "0" + mins;
+ }
+ if(secs < 10){
+ secs = "0" + secs;
+ }
+
+ document.getElementById('output').innerHTML = mins + ":" + secs + ":" + "0" + tenths;
+ increment();
+
+ }, 100);
+ }
+}
+</script>
+    <style>
+
+.wrap {
+  display: flex;
+  align-items: right;
+  justify-content: center;
+}
+
+.button {
+ margin: 40px 20px;
+  width: 400px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: white;
+  background-color:#79a4d2;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color:  white;
+  box-shadow: 0px 15px 20px rgba(121,164,210, 0.4);
+  color: black;
+  transform: translateY(-7px);
+}
+
+.point { font-weight:bolder;}
+
+body {
+
+  background: linear-gradient(#ecf2f9, #9fbedf) fixed;
+
+}
+
+    </style>
+</head>
+
+<body>
+<div id="gb">
+
+<div class="wrap">
+<input type="button" class="button" value="면접 종료하기" onclick="parent.location.href='{% url 'home:result_list' %}'"> </input>
+</div>
+
+</div>
+</body>
+</html>

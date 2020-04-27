@@ -1,0 +1,503 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}면접챗봇 | 미리매{% endblock %}
+{% block description %}<meta name="description" content="자기소개서를 기반으로 면접을 진행하는 챗봇의 소개페이지입니다.">{% endblock %}
+{% block content %}
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<head>
+  <style>
+  .main {
+   margin-left: 40%;
+   margin-top: 15%;
+}
+.rating-star {
+    direction: rtl;
+    font-size: 28;
+    unicode-bidi: bidi-override;
+    display: inline-block;
+}
+.rating-star input {
+    opacity: 0;
+    position: relative;
+    left: -20px;
+    z-index: 2;
+    cursor: pointer;
+}
+.rating-star span.star:before {
+    color: #777777;
+}
+.rating-star span.star {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    position: relative;
+    z-index: 1;
+}
+.rating-star span {
+    margin-left: -12px;
+}
+.rating-star span.star:before {
+    color: #777777;
+    content:"\f006";
+}
+.rating-star input:hover + span.star:before, .rating-star input:hover + span.star ~ span.star:before, .rating-star input:checked + span.star:before, .rating-star input:checked + span.star ~ span.star:before {
+    color: #ffd100;
+    content:"\f005";
+}
+
+.selected-rating{
+    color: #ffd100;
+    font-weight: bold;
+    font-size: 42px;
+}
+
+
+<!--여기 위에는 별-->
+
+   .dropdown .nav-link{
+  border: none;
+  outline: none;
+  background-color: inherit;
+  margin: 0;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  font-size : 14px;
+  float: none;
+  color: black;
+  padding: 8px 4px;
+  display: block;
+  text-align: left;
+    border-bottom: 1px solid  black;
+}
+.dropdown-content a:hover {
+  color:#fdc632;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+<!--.banner_area{-->
+<!--    background-image: url("/static/img/banner/creative.jpg"); background-repeat: no-repeat; background-position: center;-->
+<!--}-->
+.point{
+    font-size:20px;
+    color:#002347;
+    font-weight: bolder;
+}
+#wow {
+    background-color: #ecf2f9;
+    padding : 30px 30px;
+    border-radius : 30px;
+}
+#que{color:black; border-bottom: 2px solid  #79a4d2;}
+
+#hr{ border-bottom: 2px solid  #79a4d2; margin-top:4px;}
+
+.button{
+  width: 180px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color:   #79a4d2;
+  box-shadow: 0px 15px 20px rgba(121,164,210, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+#font {text-align: center;}
+
+#finally3 {background: #79a4d2; color: white; border: #79a4d2;}
+#finally3:hover {background:white; color:#79a4d2; border: 1px solid #79a4d2;}
+
+/* Dropdown menu css */
+.dropdown-container {
+  position: relative;
+  max-width: 960px;
+  margin-right:10px;
+}
+.dropdown-container .dropdown-toggle {
+  color: #000000;
+  background-color: #ffffff;
+  font-size: 17px;
+    paddind-bottom:2000px;
+  box-shadow: 0px 0px 4px -2px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  transition: all ease-in-out 0.3s;
+  cursor: pointer;
+  width: 100%;
+  <!--padding-top:120px;-->
+ <!--margin-top: 120px;-->
+}
+
+.dropdown-container .dropdown-toggle:hover, .dropdown-container .dropdown-toggle:active, .dropdown-container .dropdown-toggle:focus {
+  background-color: #79a4d2;
+  color: white;
+  padding-top: 0px;
+  max-width: 960px;
+   width: 100%;
+   position: relative;
+}
+.dropdown-container .dropdown-toggle > option:hover, .dropdown-container .dropdown-toggle:focus {
+  background-color: #79a4d2;
+  color: black;
+  padding-top: 0px;
+  max-width: 960px;
+   width: 100%;
+   position: relative;
+}
+
+<!--.dropdown-container .dropdown-menu {-->
+<!--  width: 100%;-->
+<!--  border-radius: 10px;-->
+<!--  box-shadow: 0px 0px 4px -2px rgba(0, 0, 0, 0.5);-->
+<!--  margin-top: 80px;-->
+<!--  position: absolute;-->
+<!--  left: 0;-->
+<!--&lt;!&ndash;  top: 100%;&ndash;&gt;-->
+<!--  display: none;-->
+<!--  background-color: #ffffff;-->
+<!--&lt;!&ndash;  z-index: 10;&ndash;&gt;-->
+<!--}-->
+<!--.dropdown-container .dropdown-menu {-->
+<!--  list-style: none;-->
+<!--  padding: 0;-->
+<!--  margin: 0;-->
+<!--  overflow: hidden;-->
+<!--  border-radius: 10px;-->
+<!--}-->
+<!--.dropdown-container .dropdown-menu{-->
+<!--  text-decoration: none;-->
+<!--  display: block;-->
+<!--  color: #ff3131;-->
+<!--  font-size: 15px;-->
+<!--  padding: 16px 20px;-->
+<!--  font-weight: 600;-->
+<!--  box-shadow: 0px 0px 4px -2px rgba(0, 0, 0, 0.5);-->
+<!--&lt;!&ndash;  transition: all ease-in-out 0.3s;&ndash;&gt;-->
+<!--}-->
+.dropdown-menu :hover, .dropdown-menu :active, .dropdown-menu :focus {
+  background-color: #0979ce;
+  color: #0979ce;
+}
+
+.dropdown-menu,
+.dropdown-toggle {
+  position: relative;
+}
+.dropdown-menu::before,
+.dropdown-toggle::before {
+  content: "";
+  position: absolute;
+  right: 20px;
+<!--  top: 50%;-->
+<!--  transform: translateY(-50%) rotate(45deg);-->
+  border: 5px solid;
+  border-top-color: rgba(0, 0, 0, 0);
+  border-left-color: rgba(0, 0, 0, 0);
+<!--  margin-top: -2.5px;-->
+  background-color: rgba(0, 0, 0, 0);
+  transition: all ease-in-out 0.2s;
+   color: #0979ce;
+}
+
+<!--.dropdown-open .dropdown-menu.dropdown-active {-->
+  <!--display: block;-->
+<!--}-->
+
+.dropdown-container.dropdown-open .dropdown-toggle {
+  background-color: #0979ce;
+  color: #ff3131;
+}
+.dropdown-container.dropdown-open .dropdown-toggle:before {
+  transform: rotate(-135deg);
+}
+.output {
+font-size:15px;
+
+     }
+
+.text { text-align: center; }
+.kk {color:#79a4d2;}
+
+</style>
+</head>
+  <header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <a class="navbar-brand logo_h" href="{% url 'home:homePage' %}"><img src="{% static 'img/mirime.png' %}" alt="" /></a>
+          <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="icon-bar"></span> <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div
+              class="collapse navbar-collapse offset"
+              id="navbarSupportedContent"
+            >
+              <ul class="nav navbar-nav menu_nav ml-auto">
+
+               <!-- 변경 -->
+                  <li class="nav-item">
+                        {% if not request.user.is_authenticated %}
+                        <a class="nav-link" href="/user/create/">가입하기</a>
+                        {% endif %}
+                  </li>
+                   <li class="nav-item">
+                        {% if user.is_active %}
+                        <div class="dropdown">
+                          <a class="nav-link" href="{% url 'home:mypage' %}">내 정보 보기</a>
+                            <i class="fa fa-caret-down"></i>
+                        <div class="dropdown-content">
+                          <a href="/resume/">자기소개서 입력</a>
+                            <a href="{% url 'home:mypage' %}">내 정보 보기</a>
+                            <a href="{% url 'mbti_test' %}">MBTI 검사하기</a>
+                          <a href="{% url 'home:result_list' %}">면접결과 보기</a>
+                           <a id="button" href="/user/logout/" onclick="popupDetail();">로그아웃</a>
+                        </div>
+                       </div>
+                          <li class="nav-item">
+                  <a class="nav-link" href="/bot/">면접 진행하기</a>
+                </li>
+                        {% else %}
+                        <a class="nav-link" href="/user/login/">로그인</a>
+                        {% endif %}
+                  </li>
+                  <!-- 변경asas --->
+
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#thebookclub">면접챗봇이란?</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'home:details' %}">상세정보</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#reviewArea">면접후기</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/article/">게시판</a>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+    <!--================Home Banner Area =================-->
+    <section class="banner_area">
+      <div class="banner_inner d-flex align-items-center">
+          <div class="overlay"></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-6">
+              <div class="banner_content text-center"><br><br><br>
+                <h1>내 정보 보기</h1>
+                <p>성향분석, 나의 MBTI유형 확인, 비교 분석</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--================End Home Banner Area =================-->
+
+    <!--================ Start About Area =================-->
+    <section class="about_area section_gap">
+      <div class="container">
+
+    <form method="POST">
+        {% csrf_token %}
+            <div style="top:50px;" class="dropdown-container">
+          <select name="item_id" class="dropdown-toggle">
+              <!--<option selected >선택하세요</option>-->
+            {% for resume in resumes %}
+              <option style="margin-left:800px;" value="{{resume.pk}}">{{ resume.title }}</option>
+            {% endfor %}
+            </select>
+          </div>  <br><br> <button class="event-btn" id="finally3" style="margin-left: 970px;">확인하기</button>
+        <hr>
+    </form>
+
+        <details onclick="getOption()">
+            <summary class="point">자기소개서 확인</summary>
+            <div id="wow">
+                                     <strong id="font" style="font-size: 25px; color: black;">제목: {{my_resume.title}}<hr></strong><br>
+                     <strong  style="font-size: 17px; color:black;">본 회사의 지원동기를 작성해주시기 바랍니다.<hr id="hr"></strong> {{my_resume.motive}}<br><br>
+                     <strong  style="font-size: 17px; color:black;">입사 후 포부를 작성해주시기 바랍니다.<hr id="hr"></strong> {{my_resume.dream}}<br><br>
+                     <strong  style="font-size: 17px; color:black;">본인의 성장과정을 작성해주시기 바랍니다.<hr id="hr"></strong> {{my_resume.growth}}<br><br>
+                     <strong  style="font-size: 17px; color:black;">본인의 장점과 단점을 작성해주시기 바랍니다.<hr id="hr"></strong> {{my_resume.pac}}<br><br>
+                     <strong  style="font-size: 17px; color: black;">참여했던 대외활동, 공모전, 프로젝트 경험을 작성해주시기 바랍니다.<hr id="hr"></strong> {{my_resume.activities}}<br><br>
+        </details><hr>
+
+    <script type="text/javascript">
+        function getOption() {
+            selectElement =
+                    document.querySelector('.dropdown-toggle');
+
+            output = selectElement.value;
+
+            document.querySelector('.output').textContent
+                    = output;
+        }
+    </script>
+           <details>
+            <summary class="point">모든 자기소개서 확인</summary>
+                 <div id="wow">
+                      {% for resume in resumes %}
+                          <div class="post">
+                              <h3><a href="{% url 'resume_detail' pk=resume.pk %}">{{ resume.title }}</a></h3>
+                              <div class="date">
+                                  <p>published: {{ resume.published_date }}</p>
+                              </div>
+                          </div>
+                        <br>
+                      {% endfor %}
+
+                     </div>
+            </details>
+              <hr>
+          <details>
+            <summary class="point">성향분석 확인</summary>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+<canvas id="myChart" width="600" height="300"></canvas>
+                <div id="wow">
+                    {% for mbti in mbtis %}
+                    <div class="text"><strong style="font-size:25px; color: black;">당신의 자소서에서 나타난 성향은 <span style="color:#b30000;">{{ mbti.mbti1 }}</span> 입니다</strong><hr></div>
+<!--                        <br>-->
+                        {{ mbti.mbti2 }}
+                    {% endfor %}
+                </div>
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+         labels: ['Topic1','Topic2','Topic3','Topic4','Topic5'],
+        datasets: [{
+            label: 'My Resume Topic',
+            {% for resume in resumes %}
+            data: [{{resume.score1}}, {{resume.score2}}, {{resume.score3}}, {{resume.score4}}, {{resume.score5}}],
+            {% endfor %}
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(191, 64, 128, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(255, 159, 64,0.2)',
+                'rgba(153, 102, 255, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(191, 64, 128, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 159, 64,1)',
+                'rgba(153, 102, 255, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+            </details>
+
+             <hr>
+            <details>
+            <summary class="point">나의 MBTI 유형</summary>
+                <div id="wow">
+                    {% for mbti in mbtis %}
+                    <div class="text"> <strong class="text" style="font-size:25px; color: black;">당신의 성향은 <span style="color:#b30000;">{{ mbti.Ambti1 }}</span> 입니다</strong><hr></div>
+<!--                        <br>-->
+                        {{ mbti.Ambti2 }}
+                    {% endfor %}
+                </div>
+            </details>
+              <hr>
+
+           <details>
+            <summary class="point">비교 분석</summary>
+                <div id="wow">
+                    {% for mbti in mbtis %}
+                    <strong>{{ mbti.text }}<br><br></strong>
+                        {{ mbti.textSN }}
+                        {{ mbti.textTF }}
+                        {{ mbti.textJP }}
+                        {{ mbti.textEI }}<br><br>
+                        {{ mbti.textfinal }}
+                    {% endfor %}
+                </div>
+            </details>
+              <hr>
+<head>
+ <script language="javascript">
+   function popupDetail(){
+        alert("로그아웃 되었습니다.");
+        }
+  </script>
+</head>
+          </div>
+  <div class="float-event lvTest" id="testFab">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="my-float">자신의 개성이 반영된 자기소개서입력 완료!<br> 이제 면접만 남았다면 지금 바로 면접을 진행해 보세요!</p>
+        </div>
+        <div class="col">
+          <a href="/bot/"><button class="event-btn" id="finally3" style="margin-top: 16px;" >면접 진행하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    </section>
+    <!--================ End About Area =================-->
+{% endblock %}

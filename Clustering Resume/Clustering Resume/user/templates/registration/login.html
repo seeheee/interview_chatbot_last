@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}면접챗봇 | 자기소개서기반 모의면접{% endblock %}
+{% block description %}<meta name="description" content="자기소개서를 기반으로 질문을 하는 면접챗봇입니다.">{% endblock %}
+{% block content %}
+<head>
+    <style>
+  .login-wrap{
+	width:100%;
+	margin:auto;
+	max-width:525px;
+	min-height:670px;
+	position:relative;
+	background-image: url("/static/img/11.png"); background-repeat: no-repeat; background-position: center;
+	box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+}
+.login-html{
+	width:100%;
+	height:100%;
+	position:absolute;
+	padding:90px 70px 50px 70px;
+	background:rgba(121,164,210,.9);
+}
+.login-form{
+	min-height:345px;
+	position:relative;
+	perspective:1000px;
+	transform-style:preserve-3d;
+}
+.login-form .form-group{
+	margin-bottom:15px;
+}
+.login-form .form-group > input{
+	width:100%;
+	color: black;
+	display:block;
+	border:none;
+	padding: 5px 10px;
+	border-radius: 25px;
+}
+.login-form .form-actions > button {
+    margin-top:30px;
+    padding: 13px 20px;
+	border-radius:25px;
+    width:100%;
+	color: #fff;
+	display:block;
+}
+.login-html .tab{
+	font-size:27px;
+	margin-right:15px;
+	padding-bottom:7px;
+	margin:0 15px 20px 0;
+	display:inline-block;
+	border-bottom:4px solid transparent;
+	color:#fff;
+	border-color:#1161ee;
+}
+.form-group > label{
+    font: 'Open Sans',sans-serif;
+    color : #fff;
+}
+<!--.banner_area{-->
+<!--    background-image: url("/static/img/banner/office.jpg"); background-repeat: no-repeat; background-position: center;-->
+<!--}-->
+#finally3 {background: #79a4d2; color: white; border: #79a4d2;}
+#finally3:hover {background:white; color:#79a4d2; border: 1px solid #79a4d2;}
+    </style>
+     <script language="javascript">
+   function popupDetail(){
+        alert("로그아웃 되었습니다.");
+        }
+
+  function popupDetail(){
+        alert("로그인 되었습니다.");
+        }
+  </script>
+</head>
+<!--================ Start Header Menu Area =================-->
+
+<header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <a class="navbar-brand logo_h" href="{% url 'home:homePage' %}"><img src="{% static 'img/mirime.png' %}" alt="" /></a>
+          <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="icon-bar"></span> <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div
+              class="collapse navbar-collapse offset"
+              id="navbarSupportedContent"
+            >
+              <ul class="nav navbar-nav menu_nav ml-auto">
+
+               <!-- 변경 -->
+                  <li class="nav-item">
+                        {% if not request.user.is_authenticated %}
+                        <a class="nav-link" href="/user/create/">가입하기</a>
+                        {% endif %}
+                  </li>
+                   <li class="nav-item">
+                        {% if user.is_active %}
+                        <div class="dropdown">
+                          <a class="nav-link" href="{% url 'home:list' %}">내 정보 보기</a>
+                            <i class="fa fa-caret-down"></i>
+                        <div class="dropdown-content">
+                          <a href="/resume/">자기소개서 입력</a>
+                            <a href="{% url 'home:mypage' %}">내 정보 보기</a>
+                            <a href="{% url 'mbti_test' %}">MBTI 검사하기</a>
+                          <a href="{% url 'home:list' %}">면접결과 보기</a>
+                           <a id="button" href="/user/logout/" onclick="popupDetail();">로그아웃</a>
+                        </div>
+                       </div>
+                     <li class="nav-item">
+                  <a class="nav-link" href="/bot/">면접 진행하기</a>
+                </li>
+                        {% else %}
+                        <a class="nav-link" href="/user/login/">로그인</a>
+                        {% endif %}
+                  </li>
+                  <!-- 변경 -->
+
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#thebookclub">면접챗봇이란?</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'home:details' %}">상세정보</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#reviewArea">면접후기</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/article/">게시판</a>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <!--================Home Banner Area =================-->
+  <section class="banner_area">
+    <div class="banner_inner d-flex align-items-center">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="banner_content text-center"><br><br><br>
+              <h1>Sign In</h1>
+              <div class="page_link">
+                <a href="#">로그인하세요!</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================End Home Banner Area =================-->
+
+  <!--================ Start Course Details Area =================-->
+  <section class="course_details_area section_gap">
+    <div class="container">
+
+{% load i18n %}
+{% block css %}
+<!--{% endblock css %}-->
+    <div class="login-wrap">
+        <div class="login-html">
+        <label class="tab">Sign In</label>
+        <form action="." method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="login-form">
+                <div class="form-group {% if field.errors|length > 0 %}has-error{%endif %}">
+                    <label for="{{ field.id_for_lable }}">{{ field.label }}</label>
+                    <input name="{{ field.html_name }}" id="{{ field.id_for_lable }}" class="form-control" type="{{ field.field.widget.input_type }}" value="{{ field.value|default_if_none:'' }}">
+                    {% for error in field.errors %}
+                        <label class="control-label" for="{{ field.id_for_lable }}">{{ error }}</label>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <div class="form-actions">
+                <button class="btn btn-primary btn-large" onclick="popupDetail();" type="submit">Sign In</button>
+            </div>
+            </div>
+        </form>
+    </div>
+</div>
+                          </div>
+</div>
+ <div class="float-event lvTest" id="testFab">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="my-float">자신의 개성이 반영된 자기소개서입력 완료!<br> 이제 면접만 남았다면 지금 바로 면접을 진행해 보세요!</p>
+        </div>
+        <div class="col">
+          <a href="/bot/"><button class="event-btn" id="finally3" style="margin-top: 16px;" >면접 진행하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </section>
+  <!--================ End Course Details Area ==================-->
+{% endblock %}

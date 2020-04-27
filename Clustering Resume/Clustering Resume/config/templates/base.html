@@ -1,0 +1,68 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Facebook Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2373147246230156');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=2373147246230156&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Facebook Pixel Code -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png" />
+  <title>{% block title %}{% endblock %}</title>
+  {% block description %}{% endblock %}
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/flaticon.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/themify-icons.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/vendors/owl-carousel/owl.carousel.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/vendors/nice-select/css/nice-select.css' %}" />
+  <!-- main css -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <!-- Google Fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,700&display=swap&subset=korean" rel="stylesheet">
+</head>
+<body>
+
+{% block content %}
+{% endblock %}
+
+{% include "footer.html" %}
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'assets/js/popper.js' %}"></script>
+  <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'assets/vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
+  <script src="{% static 'assets/vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'assets/js/owl-carousel-thumb.min.js' %}"></script>
+  <script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+  <script src="{% static 'assets/js/mail-script.js' %}"></script>
+  <!--gmaps Js-->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+  <script src="{% static 'assets/js/gmaps.min.js' %}"></script>
+  <script src="{% static 'assets/js/theme.js' %}"></script>
+  <!--notify Js-->
+  <script src="{% static 'assets/js/bootstrap-notify.min.js' %}"></script>
+{% block js %}
+{% endblock %}
+</body>
+</html>

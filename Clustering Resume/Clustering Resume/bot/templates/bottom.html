@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BOTTOM</title>
+<link href="https://fonts.googleapis.com/css?family=Jua|Sunflower:300&display=swap" rel="stylesheet">
+    <style>
+ #bottom {font-weight: bolder; font-size:20px; outline:none; text-align:center;}
+ body {
+font-family: 'Roboto';
+  background: linear-gradient(#ecf2f9, #9fbedf) fixed;
+}
+
+input { margin: 40px 20px;
+  width: 250px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: white;
+  background-color:#79a4d2;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;}
+
+ input:hover{background-color:  white;
+  box-shadow: 0px 15px 20px rgba(121,164,210, 0.4);
+  color: black;
+  transform: translateY(-7px);}
+
+#divHid1 {margin: -100px 400px;}
+    </style>
+
+    <script>
+    function fnTest1(divName) {
+    var frm = document.getElementById(divName);
+
+    if (frm.style.display != "block") {
+     frm.style.display = "block";
+    } else {
+     frm.style.display = "none";
+    }
+   }
+
+   function fnTest(hidName, divName) {
+    var frmBlock = document.getElementById(divName);
+    var frmNone = document.getElementById(hidName);
+
+    frmBlock.style.display = "block";
+    frmNone.style.display = "none";
+   }
+
+   function fnName() {
+    var frm = document.frm;
+    if (frm.btnTest1_2.value != "바꾸기후") {
+     frm.btnTest1_2.value = "바꾸기후";
+    } else {
+     frm.btnTest1_2.value = "바꾸기전";
+    }
+   }
+    </script>
+</head>
+<body>
+
+<div id="divBtn1" style="display:block;">
+<!--   <<input type="button" name="btnTest1_1" value="면접 진행 방법" onclick="javascript:fnTest1('divHid1')">-->
+    <h3>면접 진행 방법</h3>
+<!--  <div id="divHid1" style="margin-right:90px;">-->
+      <h4>1. 자기소개서 작성여부를 확인한 후에 버튼을 눌러주세요.</h4><h4>2. 전공자 / 비전공자 버튼 클릭 후 왼쪽 상단에 있는 스피커 모양을 눌러 소리를 켜 주세요.</h4><h4> 3. 전공자와 비전공자를 선택한 후 20가지의 질문에 답해주세요.</h4> <h4>4. 면접 종료 후 면접 종료하기 버튼을 누르세요.</h4>
+  </div>
+</div>
+</body>
+</html>

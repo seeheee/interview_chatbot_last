@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}면접챗봇 | 자기소개서기반 모의면접{% endblock %}
+{% block description %}<meta name="description" content="자기소개서를 기반으로 질문을 하는 면접챗봇입니다.">{% endblock %}
+{% block content %}
+<!--================ Start Header Menu Area =================-->
+  <header class="header_area white-header">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light navbar2">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <a class="navbar-brand logo_h" href="{% url 'home:homePage' %}"><img src="{% static 'img/mirime.png' %}" alt="" /></a>
+          <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="icon-bar"></span> <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div
+              class="collapse navbar-collapse offset"
+              id="navbarSupportedContent"
+            >
+              <ul class="nav navbar-nav menu_nav ml-auto">
+
+               <!-- 변경 -->
+                  <li class="nav-item">
+                        {% if not request.user.is_authenticated %}
+                        <a class="nav-link" href="/user/create/">가입하기</a>
+                        {% endif %}
+                  </li>
+                   <li class="nav-item">
+                        {% if user.is_active %}
+                        <div class="dropdown">
+                          <a class="nav-link" href="{% url 'home:mypage' %}">내 정보 보기</a>
+                            <i class="fa fa-caret-down"></i>
+                        <div class="dropdown-content">
+                          <a href="/resume/">자기소개서 입력</a>
+                          <a href="{% url 'home:list' %}">면접결과 보기</a>
+                           <a id="button" href="/user/logout/" onclick="popupDetail();">로그아웃</a>
+                        </div>
+                </li>
+                       </div>
+
+                        {% else %}
+                        <a class="nav-link" href="/user/login/">로그인</a>
+                        {% endif %}
+                  </li>
+                  <!-- 변경 -->
+
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#thebookclub">면접챗봇이란?</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'home:details' %}">상세정보</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#reviewArea">면접후기</a>
+                </li>
+				  <li class="nav-item">
+                  <a class="nav-link" href="/article/">게시판</a>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <!--================Home Banner Area =================-->
+  <section class="banner_area">
+    <div class="banner_inner d-flex align-items-center">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="banner_content text-center">
+              <h1>hfkjahkfj</h1>
+              <div class="page_link">
+                <a href="#">생생한 면접 후기와 노하우를 공유하세요!</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================End Home Banner Area =================-->
+
+  <!--================ Start Course Details Area =================-->
+  <section class="course_details_area section_gap">
+    <div class="container">
+{% load i18n %}
+{% block css %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<style>
+    .registration {
+        width: 360px;
+        margin: 0 auto;
+    }
+    p {
+        text-align: center;
+    }
+    label {
+        width: 50%;
+        text-align: left;
+    }
+    .control-label {
+        width: 100%;
+    }
+    .registration .form-actions > button {
+        width: 100%;
+    }
+</style>
+{% endblock css %}
+
+
+<div class="panel panel-default registration">
+    <div class="panel-heading">
+        로그인하기
+    </div>
+    <div class="panel-body">
+        <form action="." method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group {% if field.errors|length > 0 %}has-error{%endif %}">
+                    <label for="{{ field.id_for_lable }}">{{ field.label }}</label>
+                    <input name="{{ field.html_name }}" id="{{ field.id_for_lable }}" class="form-control" type="{{ field.field.widget.input_type }}" value="{{ field.value|default_if_none:'' }}">
+                    {% for error in field.errors %}
+                        <label class="control-label" for="{{ field.id_for_lable }}">{{ error }}</label>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <div class="form-actions">
+                <button class="btn btn-primary btn-large" type="submit">로그인하기</button>
+            </div>
+        </form>
+    </div>
+</div>
+                          </div>
+ <div class="float-event lvTest" id="testFab">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="my-float">자신의 개성이 반영된 자기소개서입력 완료!<br> 이제 면접만 남았다면 지금 바로 면접을 진행해 보세요!</p>
+        </div>
+        <div class="col">
+          <a href="/bot/"><button class="event-btn" style="margin-top: 16px;" >면접 진행하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+  <!--================ End Course Details Area =================-->
+{% endblock %}

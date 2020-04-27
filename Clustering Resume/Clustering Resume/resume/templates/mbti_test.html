@@ -1,0 +1,821 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}면접챗봇 | 자기소개서기반 모의면접{% endblock %}
+{% block description %}<meta name="description" content="자기소개서를 기반으로 질문을 하는 면접챗봇입니다.">{% endblock %}
+{% block content %}
+<script type="text/javascript">
+ function check(){
+            var pro = "";
+            var success = 100;
+            var MBTI = [[0,0],[0,0],[0,0],[0,0]];
+            var ratingName = "";
+                    var s = new Array();
+                    s[0] = 0;
+                    for(i=1; i<37; i++){
+                        ratingName = "rdo" + i;
+                        s[i] = document.getElementsByName(ratingName);
+                        console.log(s);
+                    }
+
+                    var EI = new Array();
+                    var SN = new Array();
+                    var TF = new Array();
+                    var JP = new Array();
+                    EI = [s[1], s[5], s[7], s[13], s[17], s[19], s[21], s[27], s[35]];
+                    SN = [s[3], s[9], s[11], s[15], s[23], s[25], s[29], s[31], s[33]];
+                    TF = [s[4], s[10], s[12], s[20], s[24], s[26], s[28], s[30], s[34]];
+                    JP = [s[2], s[6], s[8], s[14], s[16], s[18], s[22], s[32], s[36]];
+
+
+                    for(i=0;i<9;i++){
+                        if(EI[i][0].checked) {
+                            MBTI[0][0] += 1;
+                          }
+                         else if(EI[i][1].checked) {
+                            MBTI[0][1] += 1;
+                          }
+
+                         if(SN[i][0].checked) {
+                            MBTI[1][0] += 1;
+                          }
+                         else if(SN[i][1].checked) {
+                            MBTI[1][1] += 1;
+                          }
+
+                          if(TF[i][0].checked) {
+                            MBTI[2][0] += 1;
+                          }
+                         else if(TF[i][1].checked) {
+                            MBTI[2][1] += 1;
+                          }
+
+                          if(JP[i][0].checked) {
+                            MBTI[3][0] += 1;
+                          }
+                         else if(JP[i][1].checked) {
+                            MBTI[3][1] += 1;
+                          }
+                    }
+
+                    if(MBTI[0][0]> MBTI[0][1]){
+                        pro += "E";
+                    }
+                    else{
+                        pro += "I";
+                    }
+                    if(MBTI[1][0]> MBTI[1][1]){
+                        pro += "S";
+                    }
+                    else{
+                        pro += "N";
+                    }
+                    if(MBTI[2][0]> MBTI[2][1]){
+                        pro += "T";
+                    }
+                    else{
+                        pro += "F";
+                    }
+                    if(MBTI[3][0]> MBTI[3][1]){
+                        pro += "J";
+                    }
+                    else{
+                        pro += "P";
+                    }
+                     mbti.innerHTML = pro;
+                    $.ajax({
+                        url : "/resume/update_pro/",
+                        type : "POST",
+                        data : { pro: pro },
+
+                        success : function() {
+                            console.log("success");
+                        },
+                        error : function(xhr,errmsg,err) {
+                            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                        }
+                    });
+}
+</script>
+<head>
+  <style>
+      .nav navbar-nav menu_nav ml-auto{
+      background: #79a4d2;
+     }
+     .dropdown .nav-link{
+  border: none;
+  outline: none;
+  background-color: inherit;
+  margin: 0;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  font-size : 14px;
+  float: none;
+  color: black;
+  padding: 8px 4px;
+  display: block;
+  text-align: left;
+    border-bottom: 1px solid  black;
+}
+.dropdown-content a:hover {
+  color:#fdc632;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+#finally3 {background: #79a4d2; color: white; border: #79a4d2;}
+#finally3:hover {background:white; color:#79a4d2; border: 1px solid #79a4d2;}
+
+
+ table {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+  }
+td {text-align: left; padding-left:200px;}
+
+.button {
+  width: 100%;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #79a4d2;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: white;
+  box-shadow: 0px 15px 20px rgba(121,164,210, 0.4);
+  color: #000;
+  transform: translateY(-7px);
+}
+
+.button1 {
+  width: 100%;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: white;
+  background-color: #407dbf;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button1:hover {
+  background-color:white;
+  box-shadow: 0px 15px 20px rgba(121,164,210, 0.4);
+  color: #407dbf;
+  transform: translateY(-7px);
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+.radio {
+  position: relative;
+  cursor: pointer;
+  line-height: 20px;
+  font-size: 14px;
+  margin: 15px;
+}
+.radio .label {
+  position: relative;
+  display: block;
+  float: left;
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #c8ccd4;
+  border-radius: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+.radio .label:after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background: #225cff;
+  transform: scale(0);
+  transition: all 0.2s ease;
+  opacity: 0.08;
+  pointer-events: none;
+}
+.radio:hover .label:after {
+  transform: scale(3.6);
+}
+input[type="radio"]:checked + .label {
+  border-color: #225cff;
+}
+input[type="radio"]:checked + .label:after {
+  transform: scale(1);
+  transition: all 0.2s cubic-bezier(0.35, 0.9, 0.4, 0.9);
+  opacity: 1;
+}
+.hidden {
+  display: none;
+}
+.credit {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  transition: all 0.2s ease;
+  -webkit-user-select: none;
+  user-select: none;
+  opacity: 0.6;
+}
+.credit img {
+  width: 72px;
+}
+.credit:hover {
+  transform: scale(0.95);
+}
+  </style>
+     <script language="javascript">
+   function popupDetail(){
+        alert("자신의 성향을 확인하고 자기소개서를 작성하세요.");
+        }
+  </script>
+</head>
+
+  <header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <a class="navbar-brand logo_h" href="{% url 'home:homePage' %}"><img src="{% static 'img/mirime.png' %}" alt="" /></a>
+          <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="icon-bar"></span> <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div
+              class="collapse navbar-collapse offset"
+              id="navbarSupportedContent"
+            >
+              <ul class="nav navbar-nav menu_nav ml-auto">
+
+               <!-- 변경 -->
+                  <li class="nav-item">
+                        {% if not request.user.is_authenticated %}
+                        <a class="nav-link" href="/user/create/">가입하기</a>
+                        {% endif %}
+                  </li>
+                    <li class="nav-item">
+                        {% if user.is_active %}
+                        <div class="dropdown">
+                          <a class="nav-link" href="{% url 'home:mypage' %}">내 정보 보기</a>
+                            <i class="fa fa-caret-down"></i>
+                        <div class="dropdown-content">
+                          <a href="/resume/">자기소개서 입력</a>
+                            <a href="{% url 'home:mypage' %}">내 정보 보기</a>
+                            <a href="{% url 'mbti_test' %}">MBTI 검사하기</a>
+                          <a href="{% url 'home:result_list' %}">면접결과 보기</a>
+                           <a id="button" href="/user/logout/" onclick="popupDetail();">로그아웃</a>
+                        </div>
+                       </div>
+                           <li class="nav-item">
+                  <a class="nav-link" href="/bot/">면접 진행하기</a>
+                </li>
+                        {% else %}
+                        <a class="nav-link" href="/user/login/">로그인</a>
+                        {% endif %}
+                  </li>
+                  <!-- 변경 -->
+
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#thebookclub">면접챗봇이란?</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'home:details' %}">상세정보</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#reviewArea">면접후기</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/article/">게시판</a>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <!--================Home Banner Area =================-->
+  <section class="banner_area">
+    <div class="banner_inner d-flex align-items-center">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="banner_content text-center"><br><br><br>
+              <h1 style="text-align:center;">MBTI 검사하기</h1>
+              <div class="page_link">
+                <a href="#">나의 MBTI 유형을 확인해보세요.</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================End Home Banner Area =================-->
+
+  <!--================ Start Course Details Area =================-->
+  <section class="course_details_area section_gap">
+    <div class="container" >
+
+      <div class="row">
+
+          <div class="content_wrapper" style="text-align: center;">
+                <strong style="font-size: 20px; color:black;">MBTI 유형 검사하기</strong><hr id="hr">
+            <div class="content" style="text-align: left;">
+               36개의 단어쌍이 있습니다. 대부분의 경우, 매 쌍마다 어느 한쪽이 나머지 한쪽에 비해 당신의 유형을 더 잘 표현해 주는 것이 있을 것입니다.
+                너무 깊게 생각하지 말고 느낌이 오는 대로 자신의 성향이고 느끼는 것, 자연스러운 것에 체크하면 됩니다.
+            </div> <br>
+          </div>
+          <br>
+
+
+              <table>
+
+        <tr>
+           <th>1</th>
+ <td><label for="opt1" class="radio">
+    <input type="radio" name="rdo1" id="opt1" class="hidden"/>
+    <span class="label"></span>사람
+  </label></td>
+
+  <td><label for="opt2" class="radio">
+    <input type="radio" name="rdo1" id="opt2" class="hidden"/>
+    <span class="label"></span>장소
+  </label></td>
+</tr>
+                  <tr>
+            <th>2</th>
+
+           <td><label for="opt3" class="radio">
+    <input type="radio" name="rdo2" id="opt3" class="hidden"/>
+    <span class="label"></span>조직
+  </label></td>
+
+  <td><label for="opt4" class="radio">
+    <input type="radio" name="rdo2" id="opt4" class="hidden"/>
+    <span class="label"></span>자유
+  </label></td>
+        </tr>
+
+            <tr>
+            <th>3</th>
+            <td><label for="opt5" class="radio">
+    <input type="radio" name="rdo3" id="opt5" class="hidden"/>
+    <span class="label"></span>나무
+  </label></td>
+
+  <td><label for="opt6" class="radio">
+    <input type="radio" name="rdo3" id="opt6" class="hidden"/>
+    <span class="label"></span>숲
+  </label></td>
+        </tr>
+             <tr>
+            <th>4</th>
+            <td><label for="opt7" class="radio">
+    <input type="radio" name="rdo4" id="opt7" class="hidden"/>
+    <span class="label"></span>정의
+  </label></td>
+
+  <td><label for="opt8" class="radio">
+    <input type="radio" name="rdo4" id="opt8" class="hidden"/>
+    <span class="label"></span>자비
+  </label></td>
+        </tr>
+           <tr>
+            <th>5</th>
+            <td><label for="opt9" class="radio">
+    <input type="radio" name="rdo5" id="opt9" class="hidden"/>
+    <span class="label"></span>행동
+  </label></td>
+
+  <td><label for="opt10" class="radio">
+    <input type="radio" name="rdo5" id="opt10" class="hidden"/>
+    <span class="label"></span>생각
+  </label></td>
+        </tr>
+   <tr>
+            <th>6</th>
+            <td><label for="opt11" class="radio">
+    <input type="radio" name="rdo6" id="opt11" class="hidden"/>
+    <span class="label"></span>조직적(짜여진)
+  </label></td>
+
+  <td><label for="opt12" class="radio">
+    <input type="radio" name="rdo6" id="opt12" class="hidden"/>
+    <span class="label"></span>융통적(느슨한)
+  </label></td>
+        </tr>
+        <tr>
+            <th>7</th>
+             <td><label for="opt13" class="radio">
+    <input type="radio" name="rdo7" id="opt13" class="hidden"/>
+    <span class="label"></span>넓다
+  </label></td>
+
+  <td><label for="opt14" class="radio">
+    <input type="radio" name="rdo7" id="opt14" class="hidden"/>
+    <span class="label"></span>깊다
+  </label></td>
+        </tr>
+         <tr>
+            <th>8</th>
+             <td><label for="opt15" class="radio">
+    <input type="radio" name="rdo8" id="opt15" class="hidden"/>
+    <span class="label"></span>과단성
+  </label></td>
+
+  <td><label for="opt16" class="radio">
+    <input type="radio" name="rdo8" id="opt16" class="hidden"/>
+    <span class="label"></span>호기심
+  </label></td>
+        </tr>
+       <tr>
+            <th>9</th>
+             <td><label for="opt17" class="radio">
+    <input type="radio" name="rdo9" id="opt17" class="hidden"/>
+    <span class="label"></span>사실
+  </label></td>
+
+  <td><label for="opt18" class="radio">
+    <input type="radio" name="rdo9" id="opt18" class="hidden"/>
+    <span class="label"></span>가능성
+  </label></td>
+        </tr> <tr>
+            <th>10</th>
+             <td><label for="opt19" class="radio">
+    <input type="radio" name="rdo10" id="opt19" class="hidden"/>
+    <span class="label"></span>머리
+  </label></td>
+
+  <td><label for="opt20" class="radio">
+    <input type="radio" name="rdo10" id="opt20" class="hidden"/>
+    <span class="label"></span>가슴
+  </label></td>
+        </tr><tr>
+            <th>11</th>
+            <td><label for="opt21" class="radio">
+    <input type="radio" name="rdo11" id="opt21" class="hidden"/>
+    <span class="label"></span>관찰력
+  </label></td>
+
+  <td><label for="opt22" class="radio">
+    <input type="radio" name="rdo11" id="opt22" class="hidden"/>
+    <span class="label"></span>상상력
+  </label></td>
+        </tr><tr>
+            <th>12</th>
+             <td><label for="opt23" class="radio">
+    <input type="radio" name="rdo12" id="opt23" class="hidden"/>
+    <span class="label"></span>일관성
+  </label></td>
+
+  <td><label for="opt24" class="radio">
+    <input type="radio" name="rdo12" id="opt24" class="hidden"/>
+    <span class="label"></span>열정
+  </label></td>
+        </tr><tr>
+            <th>13</th>
+             <td><label for="opt25" class="radio">
+    <input type="radio" name="rdo13" id="opt25" class="hidden"/>
+    <span class="label"></span>노는모임
+  </label></td>
+
+  <td><label for="opt26" class="radio">
+    <input type="radio" name="rdo13" id="opt26" class="hidden"/>
+    <span class="label"></span>도서관
+  </label></td>
+        </tr><tr>
+            <th>14</th>
+             <td><label for="opt27" class="radio">
+    <input type="radio" name="rdo14" id="opt27" class="hidden"/>
+    <span class="label"></span>계획적
+  </label></td>
+
+  <td><label for="opt28" class="radio">
+    <input type="radio" name="rdo14" id="opt28" class="hidden"/>
+    <span class="label"></span>즉흥적
+  </label></td>
+        </tr><tr>
+            <th>15</th>
+             <td><label for="opt29" class="radio">
+    <input type="radio" name="rdo15" id="opt29" class="hidden"/>
+    <span class="label"></span>실제적
+  </label></td>
+
+  <td><label for="opt30" class="radio">
+    <input type="radio" name="rdo15" id="opt30" class="hidden"/>
+    <span class="label"></span>이론적
+  </label></td>
+        </tr><tr>
+            <th>16</th>
+             <td><label for="opt31" class="radio">
+    <input type="radio" name="rdo16" id="opt31" class="hidden"/>
+    <span class="label"></span>대답
+  </label></td>
+
+  <td><label for="opt32" class="radio">
+    <input type="radio" name="rdo16" id="opt32" class="hidden"/>
+    <span class="label"></span>질문
+  </label></td>
+        </tr><tr>
+            <th>17</th>
+             <td><label for="opt33" class="radio">
+    <input type="radio" name="rdo17" id="opt33" class="hidden"/>
+    <span class="label"></span>공동체적(공적)
+  </label></td>
+
+  <td><label for="opt34" class="radio">
+    <input type="radio" name="rdo17" id="opt34" class="hidden"/>
+    <span class="label"></span>개인적(사적)
+  </label></td>
+        </tr><tr>
+            <th>18</th>
+             <td><label for="opt35" class="radio">
+    <input type="radio" name="rdo18" id="opt35" class="hidden"/>
+    <span class="label"></span>일
+  </label></td>
+
+  <td><label for="opt36" class="radio">
+    <input type="radio" name="rdo18" id="opt36" class="hidden"/>
+    <span class="label"></span>놀이
+  </label></td>
+        </tr><tr>
+            <th>19</th>
+             <td><label for="opt37" class="radio">
+    <input type="radio" name="rdo19" id="opt37" class="hidden"/>
+    <span class="label"></span>말하다
+  </label></td>
+
+  <td><label for="opt38" class="radio">
+    <input type="radio" name="rdo19" id="opt38" class="hidden"/>
+    <span class="label"></span>쓰다
+  </label></td>
+        </tr><tr>
+            <th>20</th>
+             <td><label for="opt39" class="radio">
+    <input type="radio" name="rdo20" id="opt39" class="hidden"/>
+    <span class="label"></span>냉정하다
+  </label></td>
+
+  <td><label for="opt40" class="radio">
+    <input type="radio" name="rdo20" id="opt40" class="hidden"/>
+    <span class="label"></span>따뜻하다
+  </label></td>
+        </tr>
+        <tr>
+            <th>21</th>
+             <td><label for="opt41" class="radio">
+    <input type="radio" name="rdo21" id="opt41" class="hidden"/>
+    <span class="label"></span>도시
+  </label></td>
+
+  <td><label for="opt42" class="radio">
+    <input type="radio" name="rdo21" id="opt42" class="hidden"/>
+    <span class="label"></span>숲
+  </label></td>
+        </tr><tr>
+            <th>22</th>
+             <td><label for="opt43" class="radio">
+    <input type="radio" name="rdo22" id="opt43" class="hidden"/>
+    <span class="label"></span>지배인
+  </label></td>
+
+  <td><label for="opt44" class="radio">
+    <input type="radio" name="rdo22" id="opt44" class="hidden"/>
+    <span class="label"></span>기업가
+  </label></td>
+        </tr><tr>
+            <th>23</th>
+             <td><label for="opt45" class="radio">
+    <input type="radio" name="rdo23" id="opt45" class="hidden"/>
+    <span class="label"></span>느긋하다
+  </label></td>
+
+  <td><label for="opt46" class="radio">
+    <input type="radio" name="rdo23" id="opt46" class="hidden"/>
+    <span class="label"></span>조급하다
+  </label></td>
+        </tr><tr>
+            <th>24</th>
+             <td><label for="opt47" class="radio">
+    <input type="radio" name="rdo24" id="opt47" class="hidden"/>
+    <span class="label"></span>진실
+  </label></td>
+
+  <td><label for="opt48" class="radio">
+    <input type="radio" name="rdo24" id="opt48" class="hidden"/>
+    <span class="label"></span>재치
+  </label></td>
+        </tr><tr>
+            <th>25</th>
+             <td><label for="opt49" class="radio">
+    <input type="radio" name="rdo25" id="opt49" class="hidden"/>
+    <span class="label"></span>생산
+  </label></td>
+
+  <td><label for="opt50" class="radio">
+    <input type="radio" name="rdo25" id="opt50" class="hidden"/>
+    <span class="label"></span>디자인
+  </label></td>
+        </tr><tr>
+            <th>26</th>
+             <td><label for="opt51" class="radio">
+    <input type="radio" name="rdo26" id="opt51" class="hidden"/>
+    <span class="label"></span>질서
+  </label></td>
+
+  <td><label for="opt52" class="radio">
+    <input type="radio" name="rdo26" id="opt52" class="hidden"/>
+    <span class="label"></span>조화
+  </label></td>
+        </tr><tr>
+            <th>27</th>
+             <td><label for="opt53" class="radio">
+    <input type="radio" name="rdo27" id="opt53" class="hidden"/>
+    <span class="label"></span>뛰다
+  </label></td>
+
+  <td><label for="opt54" class="radio">
+    <input type="radio" name="rdo27" id="opt54" class="hidden"/>
+    <span class="label"></span>보다
+  </label></td>
+        </tr><tr>
+            <th>28</th>
+             <td><label for="opt55" class="radio">
+    <input type="radio" name="rdo28" id="opt55" class="hidden"/>
+    <span class="label"></span>논리
+  </label></td>
+
+  <td><label for="opt56" class="radio">
+    <input type="radio" name="rdo28" id="opt56" class="hidden"/>
+    <span class="label"></span>가치
+  </label></td>
+        </tr><tr>
+            <th>29</th>
+           <td><label for="opt57" class="radio">
+    <input type="radio" name="rdo29" id="opt57" class="hidden"/>
+    <span class="label"></span>감각
+  </label></td>
+
+  <td><label for="opt58" class="radio">
+    <input type="radio" name="rdo29" id="opt58" class="hidden"/>
+    <span class="label"></span>통찰력
+  </label></td>
+        </tr><tr>
+            <th>30</th>
+             <td><label for="opt59" class="radio">
+    <input type="radio" name="rdo30" id="opt59" class="hidden"/>
+    <span class="label"></span>공평
+  </label></td>
+
+  <td><label for="opt60" class="radio">
+    <input type="radio" name="rdo30" id="opt60" class="hidden"/>
+    <span class="label"></span>친절
+  </label></td>
+        </tr><tr>
+            <th>31</th>
+            <td><label for="opt61" class="radio">
+    <input type="radio" name="rdo31" id="opt61" class="hidden"/>
+    <span class="label"></span>보존하다
+  </label></td>
+
+  <td><label for="opt62" class="radio">
+    <input type="radio" name="rdo31" id="opt62" class="hidden"/>
+    <span class="label"></span>변화하다
+  </label></td>
+        </tr><tr>
+            <th>32</th>
+            <td><label for="opt63" class="radio">
+    <input type="radio" name="rdo32" id="opt63" class="hidden"/>
+    <span class="label"></span>끝내다
+  </label></td>
+
+  <td><label for="opt64" class="radio">
+    <input type="radio" name="rdo32" id="opt64" class="hidden"/>
+    <span class="label"></span>시작하다
+  </label></td>
+        </tr><tr>
+            <th>33</th>
+             <td><label for="opt65" class="radio">
+    <input type="radio" name="rdo33" id="opt65" class="hidden"/>
+    <span class="label"></span>거북이
+  </label></td>
+
+  <td><label for="opt66" class="radio">
+    <input type="radio" name="rdo33" id="opt66" class="hidden"/>
+    <span class="label"></span>토끼
+  </label></td>
+        </tr><tr>
+            <th>34</th>
+             <td><label for="opt67" class="radio">
+    <input type="radio" name="rdo34" id="opt67" class="hidden"/>
+    <span class="label"></span>분석적
+  </label></td>
+
+  <td><label for="opt68" class="radio">
+    <input type="radio" name="rdo34" id="opt68" class="hidden"/>
+    <span class="label"></span>관계중심적
+  </label></td>
+        </tr><tr>
+            <th>35</th>
+             <td><label for="opt69" class="radio">
+    <input type="radio" name="rdo35" id="opt69" class="hidden"/>
+    <span class="label"></span>토론하다
+  </label></td>
+
+  <td><label for="opt70" class="radio">
+    <input type="radio" name="rdo35" id="opt70" class="hidden"/>
+    <span class="label"></span>생각하다
+  </label></td>
+        </tr><tr>
+            <th>36</th>
+            <td><label for="opt71" class="radio">
+    <input type="radio" name="rdo36" id="opt71" class="hidden"/>
+    <span class="label"></span>결과
+  </label></td>
+
+  <td><label for="opt72" class="radio">
+    <input type="radio" name="rdo36" id="opt72" class="hidden"/>
+    <span class="label"></span>과정
+  </label></td>
+        </tr>
+</table><br><br>
+
+           <strong style="font-size:25px; color: black; margin-left:280px; padding-top:80px;">당신의 성향은 <span id="mbti"></span> 입니다.</strong>
+          <input type ="button" style="margin-left: 900px; margin-top:-35px;" class="button1" value="MBTI 검사완료" onclick="check(), popupDetail()"/>
+            <div class="container">
+         <div class="row">
+          <div class="col">
+             <input type ="button" style=" width:23%; margin-left: 880px; margin-top:110px;" class="button1" value="자기소개서 작성하기" onclick="location.href='/resume/' "/>
+          </div>
+             <div></div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+ <div class="float-event lvTest" id="testFab">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="my-float">자신의 개성이 반영된 자기소개서입력 완료!<br> 이제 면접만 남았다면 지금 바로 면접을 진행해 보세요!</p>
+        </div>
+        <div class="col">
+          <a href="/bot/"><button class="event-btn" id="finally3" style="margin-top: 16px;" >면접 진행하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+  <!--================ End Course Details Area =================-->
+{% endblock %}

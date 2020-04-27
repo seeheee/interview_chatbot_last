@@ -1,0 +1,83 @@
+
+{% load staticfiles %}
+{% block description %}<meta name="description" content="자기소개서를 기반으로 면접을 진행하는 챗봇의 소개페이지입니다.">{% endblock %}
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>Display Webcam</title>
+
+<style>
+<!--#container {-->
+<!--   width: 600px;-->
+<!--   height: 400px;-->
+<!--   border: 10px #333 solid;-->
+
+<!--}-->
+#videoElement {
+   width: 1200px;
+   height: 900px;
+   #background-color: #666;
+}
+</style>
+</head>
+<body>
+<div id="container" style="position: relative;" >
+   <video autoplay="true" id="videoElement">
+   </video>
+</div>
+
+<!--<div style="position: absolute; left:643px; top: 8px;">-->
+<!--&lt;!&ndash;   <img src="{% static 'img/banner/ob.jpg' %}" width="300" height="300">&ndash;&gt;-->
+<!--</div>-->
+<div style="position: absolute; left:800px; top: 8px;">
+<!--   <img id="introImg" width="200" height="200">-->
+<!--    <img src="{% static 'img/banner/ob.jpg' %}" width="300" height="300">-->
+    <script language = "javascript">
+   function random_image()
+    {
+        var my = new Array();
+
+        my[0] = '<img src="{% static 'img/face1.png' %}" width="300" height="300">';
+        my[1] = '<img src="{% static 'img/face2.png' %}" width="300" height="300">';
+        my[2] = '<img src="{% static 'img/face3.png' %}" width="300" height="300">';
+        my[3] = '<img src="{% static 'img/face4.png' %}" width="300" height="300">';
+        my[4] = '<img src="{% static 'img/face5.png' %}" width="300" height="300">';
+        my[5] = '<img src="{% static 'img/face6.png' %}" width="300" height="300">';
+        my[6] = '<img src="{% static 'img/face7.png' %}" width="300" height="300">';
+        my[7] = '<img src="{% static 'img/face8.png' %}" width="300" height="300">';
+        my[8] = '<img src="{% static 'img/face9.png' %}" width="300" height="300">';
+        my[9] = '<img src="{% static 'img/face10.png' %}" width="300" height="300">';
+        my[10] = '<img src="{% static 'img/face11.png' %}" width="300" height="300">';
+        my[11] = '<img src="{% static 'img/face12.png' %}" width="300" height="300">';
+        my[12] = '<img src="{% static 'img/face13.png' %}" width="300" height="300">';
+        my[13] = '<img src="{% static 'img/face14.png' %}" width="300" height="300">';
+        my[14] = '<img src="{% static 'img/face15.png' %}" width="300" height="300">';
+        my[15] = '<img src="{% static 'img/face16.png' %}" width="300" height="300">';
+        my[16] = '<img src="{% static 'img/face17.png' %}" width="300" height="300">';
+        my[17] = '<img src="{% static 'img/face18.png' %}" width="300" height="300">';
+        my[18] = '<img src="{% static 'img/face19.png' %}" width="300" height="300">';
+        my[19] = '<img src="{% static 'img/face20.png' %}" width="300" height="300">';
+
+        var ry = Math.floor( Math.random() * (my.length-1) );
+        document.write(my[ry]);
+    }
+    random_image();
+</script>
+</div>
+<script>
+
+    var video = document.querySelector("#videoElement");
+
+if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function (stream) {
+      video.srcObject = stream;
+    })
+    .catch(function (err0r) {
+      console.log("Something went wrong!");
+    });
+}
+</script>
+</body>
+</html>

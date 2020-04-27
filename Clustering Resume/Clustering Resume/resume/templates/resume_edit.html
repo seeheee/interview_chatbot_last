@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}면접챗봇 | 자기소개서기반 모의면접{% endblock %}
+{% block description %}<meta name="description" content="자기소개서를 기반으로 질문을 하는 면접챗봇입니다.">{% endblock %}
+{% block content %}
+<head>
+    <style>
+        .post-form > button{
+            background-color: #79a4d2;
+            border: none;
+            width: 100%;
+            padding : 10px 10px;
+        }
+           .dropdown .nav-link{
+  border: none;
+  outline: none;
+  background-color: inherit;
+  margin: 0;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  font-size : 14px;
+  float: none;
+  color: black;
+  padding: 8px 4px;
+  display: block;
+  text-align: left;
+    border-bottom: 1px solid  black;
+}
+.dropdown-content a:hover {
+  color:#fdc632;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.loading-layer {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(68, 68, 68, 0.3);
+    z-index: 11111;
+}
+.loading-layer .loading-wrap {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+.loading-layer .loading-wrap .loading-text {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: #fff;
+    text-shadow: 2px 3px 2.6px #a2a2a2;
+    font-size: 3.8em;
+    position: relative;
+    top: -20px;
+}
+.loading-layer.active-loading .loading-wrap .loading-text span:nth-child(1) {
+  animation: loading-01 0.82s infinite;
+}
+.loading-layer.active-loading .loading-wrap .loading-text span:nth-child(2) {
+  animation: loading-02 0.82s infinite;
+}
+.loading-layer.active-loading .loading-wrap .loading-text span:nth-child(3) {
+  animation: loading-03 0.82s infinite;
+}
+
+@keyframes loading-01 {
+  25% {
+    color: #000;
+  }
+  50% {
+    color: #fff;
+  }
+}
+@keyframes loading-02 {
+  50% {
+    color: #000;
+  }
+  75% {
+    color: #fff;
+  }
+}
+@keyframes loading-03 {
+  75% {
+    color: #000;
+  }
+  100% {
+    color: #fff;
+  }
+}
+.button {
+  width: 100%;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #79a4d2;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: white;
+  box-shadow: 0px 15px 20px rgba(121,164,210, 0.4);
+  color: #000;
+  transform: translateY(-7px);
+}
+#finally3 {background: #79a4d2; color: white; border: #79a4d2;}
+#finally3:hover {background:white; color:#79a4d2; border: 1px solid #79a4d2;}
+    </style>
+    <script language="javascript">
+
+isLoading = {
+  start: function() {
+    if (document.getElementById('wfLoading')) {
+      return;
+    }
+    var ele = document.createElement('div');
+    ele.setAttribute('id', 'wfLoading');
+    ele.classList.add('loading-layer');
+    ele.innerHTML = '<span class="loading-wrap"><span class="loading-text"><span>.</span><span>.</span><span>.</span></span></span>';
+    document.body.append(ele);
+
+    // Animation
+    ele.classList.add('active-loading');
+  },
+  stop: function() {
+    var ele = document.getElementById('wfLoading');
+    if (ele) {
+      ele.remove();
+    }
+  }
+}
+
+    </script>
+</head>
+ <header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <a class="navbar-brand logo_h" href="{% url 'home:homePage' %}"><img src="{% static 'img/mirime.png' %}" alt="" /></a>
+          <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="icon-bar"></span> <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div
+              class="collapse navbar-collapse offset"
+              id="navbarSupportedContent"
+            >
+              <ul class="nav navbar-nav menu_nav ml-auto">
+
+               <!-- 변경 -->
+                  <li class="nav-item">
+                        {% if not request.user.is_authenticated %}
+                        <a class="nav-link" href="/user/create/">가입하기</a>
+                        {% endif %}
+                  </li>
+                  <li class="nav-item">
+                        {% if user.is_active %}
+                        <div class="dropdown">
+                          <a class="nav-link" href="{% url 'home:mypage' %}">내 정보 보기</a>
+                            <i class="fa fa-caret-down"></i>
+                        <div class="dropdown-content">
+                          <a href="/resume/">자기소개서 입력</a>
+                            <a href="{% url 'home:mypage' %}">내 정보 보기</a>
+                            <a href="{% url 'mbti_test' %}">MBTI 검사하기</a>
+                          <a href="{% url 'home:result_list' %}">면접결과 보기</a>
+                           <a id="button" href="/user/logout/" onclick="popupDetail();">로그아웃</a>
+                        </div>
+                       </div>
+                         <li class="nav-item">
+                  <a class="nav-link" href="/bot/">면접 진행하기</a>
+                </li>
+                        {% else %}
+                        <a class="nav-link" href="/user/login/">로그인</a>
+                        {% endif %}
+                  </li>
+                  <!-- 변경 -->
+
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#thebookclub">면접챗봇이란?</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'home:details' %}">상세정보</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/#reviewArea">면접후기</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/article/">게시판</a>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!--================Home Banner Area =================-->
+  <section class="banner_area">
+    <div class="banner_inner d-flex align-items-center">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="banner_content text-center">
+              <h1>자기소개서</h1>
+              <div class="page_link">
+                <a href="#">나만의 자기소개서를 작성하세요!</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================End Home Banner Area =================-->
+
+  <!--================ Start Course Details Area =================-->
+  <section class="course_details_area section_gap">
+    <div class="container">
+<script src="/wf_loading.js" type="text/javascript"></script>
+<link href="/wf_loading.css" rel="stylesheet" type="text/css" />
+
+                    <h1 style="text-align:center;">자기소개서</h1>
+                    <form method="POST"  class="post-form" style="color:black; font-weight: bolder;"><br>{% csrf_token %}
+                        {{ form|crispy}}
+                        <button type="submit" class="button"  onclick="isLoading.start()">작성완료</button>
+                    </form>
+        <br>
+<!--        <button type="submit" class="button" onclick="location.href='{% url 'mbti_test' %}'">MBTI 검사하러가기</button>-->
+                  </div>
+ <div class="float-event lvTest" id="testFab">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="my-float">자신의 개성이 반영된 자기소개서입력 완료!<br> 이제 면접만 남았다면 지금 바로 면접을 진행해 보세요!</p>
+        </div>
+        <div class="col">
+          <a href="/bot/"><button class="event-btn" id="finally3" style="margin-top: 16px;" >면접 진행하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+  <!--================ End Course Details Area =================-->
+{% endblock %}

@@ -1,0 +1,27 @@
+{% load staticfiles %}
+{% block description %}<meta name="description" content="자기소개서를 기반으로 면접을 진행하는 챗봇의 소개페이지입니다.">{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>글자</title>
+    <style>
+
+            #ai{ margin: -65px -9500px 0px 800px; letter-spacing: 5px;}
+            #img {margin: 30px 250px 0px 70px; }
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
+ body {
+
+  background: linear-gradient(#ecf2f9, #9fbedf) fixed;
+font-family: 'Nanum Gothic Coding', monospace;
+}
+    </style>
+</head>
+<body>
+        <div id="img"><img src="{% static 'img/mirime.png' %}" alt="" />
+            <div id="ai"><h1 style="color:white;">AI INTERVIEW CHATBOT</h1></div>
+        </div>
+
+</body>
+</html>

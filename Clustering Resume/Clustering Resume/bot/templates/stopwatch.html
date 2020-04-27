@@ -1,0 +1,102 @@
+{% load staticfiles %}
+{% block description %}<meta name="description" content="자기소개서를 기반으로 면접을 진행하는 챗봇의 소개페이지입니다.">{% endblock %}
+
+<html>
+<head>
+    <style>
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0;
+}
+.container {
+border-radius: 20px;
+  background-color: #79a4d2;
+  box-shadow: 5px 5px 5px #9fbedf;
+   margin : 0px auto;
+  color: white;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+li {
+  display: inline-block;
+  font-size: 1.0em;
+  list-style-type: none;
+  padding: 1em;
+  text-transform: uppercase;
+}
+
+li span {
+  display: block;
+  font-size: 1.5rem;
+}
+
+<!--html, body {-->
+<!--  height:d 100%;-->
+<!--  margin: 0;-->
+<!--}-->
+
+body {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen-Sans,
+    Ubuntu,
+    Cantarell,
+    "Helvetica Neue",
+    sans-serif;
+}
+
+    </style>
+<title>Timer</title>
+
+	<script language="JavaScript">
+
+		var SetTime = 1800;		// 최초 설정 시간(기본 : 초)
+
+		function msg_time() {	// 1초씩 카운트
+
+			var m = Math.floor(SetTime / 60);
+			var s = Math.floor(SetTime % 60);	// 남은 시간 계산
+
+			document.all.minutes.innerHTML = m;
+			document.all.seconds.innerHTML = s;	// div 영역에 보여줌
+
+			SetTime--;					// 1초씩 감소
+
+			if (SetTime < 0) {			// 시간이 종료 되었으면..
+
+				clearInterval(tid);		// 타이머 해제
+				alert("종료되었습니다!");
+			}
+
+		}
+		window.onload = function TimerStart(){ tid=setInterval('msg_time()',1000) };
+	</script>
+</head>
+<body >
+<!--    <div id="VT">-->
+<!--	<div id="ViewTimer"></div>-->
+<!--    </div>-->
+
+<div class="container">
+  <ul>
+    <li><span id="minutes"></span>MINUTES</li>
+    <li><span id="seconds"></span>SECONDES</li>
+  </ul>
+</div>
+</body>
+</html>
