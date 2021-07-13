@@ -27,7 +27,7 @@
 ### 💡 아쉬운 점
 Google Assistant API의 연결은 성공했지만 음성을 DB에 저장하여 이를 다시 분석하여 면접 결과에 대한 피드백을 주는 것을 하지 못했다...
 
-### 💡 Requirement library
+### 💡 Requirement Pakage
 * django-crispy-forms
 * django-mailgun
 * konlpy
@@ -36,3 +36,11 @@ Google Assistant API의 연결은 성공했지만 음성을 DB에 저장하여 �
 * run saveQuestion.py -> python saveQuestion.py
 * runserver -> python manage.py runserver
 * If Bot Copy is't run, run ngrok and webhook django with dialogflow
+
+python manage.py startapp "이름"<br>
+![image](https://user-images.githubusercontent.com/53335160/125417840-1972d645-3d61-49b0-9a72-a9973ccb1f87.png)
+
+## 💡 형태소 분석 KoNLPy 패키지 Twitter
+https://hyrama.com/?p=463
+
+
