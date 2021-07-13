@@ -41,6 +41,7 @@ python manage.py startapp "이름"<br>
 ![image](https://user-images.githubusercontent.com/53335160/125417840-1972d645-3d61-49b0-9a72-a9973ccb1f87.png)
 
 ## 💡 형태소 분석 KoNLPy 패키지 Twitter
-https://hyrama.com/?p=463
+https://hyrama.com/?p=463<br>
+https://konlpy-ko.readthedocs.io/ko/v0.4.3/api/konlpy.tag/
 
 
