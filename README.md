@@ -28,9 +28,9 @@
 Google Assistant API의 연결은 성공했지만 음성을 DB에 저장하여 이를 다시 분석하여 면접 결과에 대한 피드백을 주는 것을 하지 못했다...
 
 ### 💡 Requirement Pakage
-* django-crispy-forms
-* django-mailgun
-* konlpy
+* django-crispy-forms - 장고 폼을 부트스트랩 버전으로 바꿔줌
+* django-mailgun - 장고 이메일 백엔드
+* konlpy - 한국어 형태소 분석
 
 ### How to Run
 * run saveQuestion.py -> python saveQuestion.py
