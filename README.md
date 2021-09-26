@@ -40,8 +40,14 @@ Google Assistant API의 연결은 성공했지만 음성을 DB에 저장하여 �
 python manage.py startapp "이름"<br>
 ![image](https://user-images.githubusercontent.com/53335160/125417840-1972d645-3d61-49b0-9a72-a9973ccb1f87.png)
 
-## 💡 형태소 분석 KoNLPy 패키지 Twitter
-https://hyrama.com/?p=463<br>
-https://konlpy-ko.readthedocs.io/ko/v0.4.3/api/konlpy.tag/
+## 💡 자기소개서 작성 페이지
+![image](https://user-images.githubusercontent.com/53335160/134811047-047e6956-6232-44ec-9181-a1703314b617.png)
 
+## 💡 면접 진행 페이지
+![image](https://user-images.githubusercontent.com/53335160/134811084-8fa7d3b0-7b4d-4cf3-a012-aa03074f286a.png)
+
+## 💡 결과지 페이지
+![image](https://user-images.githubusercontent.com/53335160/134811114-cd031d86-7d9a-489b-b89f-da2826d804b1.png)
+![image](https://user-images.githubusercontent.com/53335160/134811135-4ed20787-066e-41d2-8cbf-728d2c10afcd.png)
+![image](https://user-images.githubusercontent.com/53335160/134811163-6e47ac75-114c-4428-82f3-00f66532d237.png)
 
