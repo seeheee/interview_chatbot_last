@@ -2,7 +2,7 @@
 
 
 ### 💎 시연 동영상 다운로드 💎
-[한이음공모전_인공지능챗봇_미리매_동영상.zip](https://github.com/seeheee/interview_chatbot_last/files/6799342/_._._.zip)
+https://www.youtube.com/watch?v=LEkihJxE7Uw
 
 
 ### 💡 Architecture
