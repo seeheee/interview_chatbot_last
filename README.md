@@ -1,7 +1,7 @@
 # 자기소개서 기반 인공지능 챗봇 미리매
 
 
-### 💎 시연 동영상 다운로드 💎
+### 💎 시연 동영상 유튜브 링크 💎
 https://www.youtube.com/watch?v=LEkihJxE7Uw
 
 
